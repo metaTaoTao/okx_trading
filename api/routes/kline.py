@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from api.okx_market_data import get_kline
+from api.okx_market_data import get_kline_cached
 
 kline_bp = Blueprint('kline', __name__)
 
@@ -15,7 +15,7 @@ def kline_api():
         return jsonify({"error": "Missing required parameter: instId"}), 400
 
     try:
-        result = get_kline(instId=instId, bar=bar, limit=limit, return_type=return_type)
+        result = get_kline_cached(instId=instId, bar=bar, limit=limit, return_type=return_type)
         if return_type == 'df':
             return result.to_html()  # Jupyter查看方便的话返回html
         else:

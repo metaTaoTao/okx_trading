@@ -1,10 +1,16 @@
 from api.utils.parser import parse_okx_kline, list_of_dicts_to_df
 import okx.MarketData as MarketData
 import pandas as pd
+from functools import lru_cache
+
 
 flag = "0"  # 实盘:0 , 模拟盘：1
 
 marketDataAPI =  MarketData.MarketAPI(flag=flag)
+
+@lru_cache(maxsize=128)
+def get_kline_cached(instId, bar='1m', limit=300, return_type='json'):
+    return get_kline(instId, bar, limit, return_type)
 
 def get_hist_kline(instId, bar='1m', return_type='json'):
     result = marketDataAPI.get_history_candlesticks(
