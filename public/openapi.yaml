@@ -1,38 +1,80 @@
 openapi: 3.0.1
 info:
-  title: OKX Market API
-  description: 提供实时K线行情查询
-  version: '1.0'
+  title: OKX Market Data Plugin
+  description: 提供实时的 OKX 市场数据，包括币种行情、K线数据等。
+  version: '1.0.0'
 servers:
   - url: https://okx-trading.vercel.app
+
 paths:
   /kline:
     get:
-      summary: 获取K线数据
+      summary: 获取指定币种的K线数据
+      operationId: getKline
       parameters:
         - name: instId
           in: query
           required: true
+          description: 币对 ID，例如 BTC-USDT-SWAP
           schema:
             type: string
         - name: bar
           in: query
           required: false
+          description: K线周期，例如 1m, 5m, 1h, 4h 等
           schema:
             type: string
             default: 1m
         - name: limit
           in: query
           required: false
+          description: 返回K线的数量
           schema:
             type: integer
             default: 300
+        - name: return_type
+          in: query
+          required: false
+          description: 返回数据格式，可选 'json' 或 'df'
+          schema:
+            type: string
+            default: json
       responses:
         '200':
-          description: 成功返回K线数据
+          description: 返回K线数据
           content:
             application/json:
               schema:
                 type: array
                 items:
                   type: object
+                  properties:
+                    timestamp:
+                      type: string
+                      format: date-time
+                    open:
+                      type: number
+                    high:
+                      type: number
+                    low:
+                      type: number
+                    close:
+                      type: number
+                    volume:
+                      type: number
+
+  /health:
+    get:
+      summary: 健康检查
+      operationId: healthCheck
+      responses:
+        '200':
+          description: 返回服务状态
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
