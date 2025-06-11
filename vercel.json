@@ -3,6 +3,8 @@
     { "src": "api/main.py", "use": "@vercel/python" }
   ],
   "routes": [
+    { "src": "/.well-known/ai-plugin.json", "dest": "/.well-known/ai-plugin.json" },
+    { "src": "/openapi.yaml", "dest": "/openapi.yaml" },
     { "src": "/(.*)", "dest": "api/main.py" }
   ]
 }
