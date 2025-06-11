@@ -71,6 +71,5 @@ def get_all_tickers(instType="SWAP",return_type='json'):
     else:
         return df.to_dict(orient='records')
 
-print(get_all_tickers())
 
 
