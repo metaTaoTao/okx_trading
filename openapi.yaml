@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: OKX Market API
+  description: 提供实时K线行情查询
+  version: '1.0'
+servers:
+  - url: https://okx-trading.vercel.app
+paths:
+  /kline:
+    get:
+      summary: 获取K线数据
+      parameters:
+        - name: instId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: bar
+          in: query
+          required: false
+          schema:
+            type: string
+            default: 1m
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 300
+      responses:
+        '200':
+          description: 成功返回K线数据
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
